@@ -7,7 +7,9 @@ package github.modwiz.desertLiving;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 
 /**
  *
@@ -24,7 +26,16 @@ public class Recipes {
     
     private void setupBlocks() {
         OneItemRecipe woodRecipe = new OneItemRecipe(new ItemStack(Material.LOG,8), Material.CACTUS);
-        mainInstance.getServer().addRecipe(woodRecipe.getRecipe());
+        OneItemRecipe oakToSpruce = new OneItemRecipe(Wood.SPRUCE, Wood.OAK);
+        OneItemRecipe spruceToBirch = new OneItemRecipe(Wood.BIRCH, Wood.SPRUCE);
+        OneItemRecipe birchToJungle = new OneItemRecipe(Wood.BIRCH, Wood.JUNGLE);
+        OneItemRecipe jungleToOak = new OneItemRecipe(Wood.JUNGLE, Wood.OAK);
+        addRecipe(woodRecipe.getRecipe());
+        addRecipe(oakToSpruce.getRecipe());
+        addRecipe(spruceToBirch.getRecipe());
+        addRecipe(birchToJungle.getRecipe());
+        addRecipe(jungleToOak.getRecipe());
+        
         DesertLiving.log.info("[DesertLiving] Block Recipes Loaded.");
     }
     
@@ -33,5 +44,15 @@ public class Recipes {
         mainInstance.getServer().addRecipe(pickaxeRecipe);
         DesertLiving.log.info("[DesertLiving] Tool Recipes Loaded.");
 
+    }
+    
+    private void addRecipe(Recipe r) {
+    	if (r == null) {
+    		throw new IllegalArgumentException("Recipe was null");
+    	} else if (mainInstance == null) {
+    		throw new IllegalArgumentException("Plugin instance was null");
+    	}
+    	
+    	mainInstance.getServer().addRecipe(r);
     }
 }

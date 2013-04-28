@@ -21,6 +21,16 @@ public class OneItemRecipe implements SimpleRecipe{
         shapeless.addIngredient(reactant);
         
     }
+    
+    public OneItemRecipe(ItemStack product, int damageValue) {
+		shapeless = new ShapelessRecipe(product);
+		shapeless.addIngredient(Material.CACTUS, damageValue);
+	}
+    
+    public OneItemRecipe(Wood product, Wood reactant) {
+    	shapeless = new ShapelessRecipe(new ItemStack(Material.LOG, product.toDamage()));
+    	shapeless.addIngredient(Material.LOG, reactant.toDamage());
+    }
     @Override
     public ShapelessRecipe getRecipe() {
         return shapeless;
