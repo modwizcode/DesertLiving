@@ -7,6 +7,7 @@ package github.modwiz.desertLiving.api;
 import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 /**
@@ -14,5 +15,5 @@ import org.bukkit.inventory.ShapelessRecipe;
  * @author Starbuck Johnson
  */
 public interface SimpleRecipe {
-    public ShapelessRecipe getRecipe();
+    public Recipe getRecipe();
 }

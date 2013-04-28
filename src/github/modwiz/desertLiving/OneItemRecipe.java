@@ -7,6 +7,8 @@ package github.modwiz.desertLiving;
 import github.modwiz.desertLiving.api.SimpleRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 /**
@@ -15,25 +17,29 @@ import org.bukkit.inventory.ShapelessRecipe;
  */
 public class OneItemRecipe implements SimpleRecipe{
 
-    private ShapelessRecipe shapeless;
+    private Recipe recipe;
     OneItemRecipe(ItemStack product, Material reactant) {
-        shapeless = new ShapelessRecipe(product);
+        ShapelessRecipe shapeless = new ShapelessRecipe(product);
         shapeless.addIngredient(reactant);
-        
+        recipe = shapeless;
     }
     
     public OneItemRecipe(ItemStack product, int damageValue) {
-		shapeless = new ShapelessRecipe(product);
+		ShapelessRecipe shapeless = new ShapelessRecipe(product);
 		shapeless.addIngredient(Material.CACTUS, damageValue);
+		recipe = shapeless;
 	}
     
     public OneItemRecipe(Wood product, Wood reactant) {
-    	shapeless = new ShapelessRecipe(new ItemStack(Material.LOG, product.toDamage()));
-    	shapeless.addIngredient(Material.LOG, reactant.toDamage());
+    	ShapedRecipe shaped = new ShapedRecipe(new ItemStack(Material.LOG, product.toDamage()));
+    	shaped.shape("LL");
+    	shaped.setIngredient('L',Material.LOG, reactant.toDamage());
+    	recipe = shaped;
     }
+    
     @Override
-    public ShapelessRecipe getRecipe() {
-        return shapeless;
+    public Recipe getRecipe() {
+        return recipe;
     }
     
 }
