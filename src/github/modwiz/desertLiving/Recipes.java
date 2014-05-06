@@ -5,11 +5,13 @@
 package github.modwiz.desertLiving;
 
 import org.bukkit.Material;
+import org.bukkit.TreeSpecies;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.material.Tree;
 
 /**
  *
@@ -17,25 +19,33 @@ import org.bukkit.inventory.ShapelessRecipe;
  */
 public class Recipes {
     private DesertLiving mainInstance;
-    
-    public void Load(DesertLiving plug) {
+
+    public Recipes(DesertLiving plug) {
         mainInstance = plug;
         setupBlocks();
         setupTools();
     }
     
     private void setupBlocks() {
-        OneItemRecipe woodRecipe = new OneItemRecipe(new ItemStack(Material.LOG,8), Material.CACTUS);
-        OneItemRecipe oakToSpruce = new OneItemRecipe(Wood.SPRUCE, Wood.OAK);
-        OneItemRecipe spruceToBirch = new OneItemRecipe(Wood.BIRCH, Wood.SPRUCE);
+        // Cactus recipe now makes a sapling for more balance
+        OneItemRecipe cactusSapling = new OneItemRecipe(new ItemStack(Material.SAPLING,3), Material.CACTUS);
+
+        // Convert saplings instead of wood blocks, this is easier to implement and more fair
+        ItemStack spruceSapling = new ItemStack(Material.SAPLING);
+        spruceSapling.setData(new Tree(TreeSpecies.REDWOOD));
+
+        OneItemRecipe oakToSpruce = new OneItemRecipe(spruceSapling, Material.SAPLING);
+        /* OneItemRecipe spruceToBirch = new OneItemRecipe(Wood.BIRCH, Wood.SPRUCE);
         OneItemRecipe birchToJungle = new OneItemRecipe(Wood.BIRCH, Wood.JUNGLE);
         OneItemRecipe jungleToOak = new OneItemRecipe(Wood.JUNGLE, Wood.OAK);
-        addRecipe(woodRecipe.getRecipe());
+        */
+        addRecipe(cactusSapling.getRecipe());
         addRecipe(oakToSpruce.getRecipe());
+        /*
         addRecipe(spruceToBirch.getRecipe());
         addRecipe(birchToJungle.getRecipe());
         addRecipe(jungleToOak.getRecipe());
-        
+        */
         DesertLiving.log.info("[DesertLiving] Block Recipes Loaded.");
     }
     

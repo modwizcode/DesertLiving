@@ -11,7 +11,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 /**
- *
+ * An interface to do something??? I think it implies a complex constructor but it seems quite useless now
  * @author Starbuck Johnson
  */
 public interface SimpleRecipe {

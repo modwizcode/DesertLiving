@@ -19,13 +19,6 @@ public class DesertLiving extends JavaPlugin{
     
     @Override
     public void onEnable() {
-        log.info("[DesertLiving] Plugin has been enabled.");
-        recipes = new Recipes();
-        recipes.Load(this);
-    }
-    
-    @Override
-    public void onDisable() {
-        log.info("[DesertLiving] Plugin has been disabled.");
+        recipes = new Recipes(this);
     }
 }
