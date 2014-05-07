@@ -12,6 +12,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.material.Tree;
+import ro.thehunters.digi.recipeUtil.RecipeUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,32 +24,53 @@ import org.bukkit.material.Tree;
 public class Recipes {
     private DesertLiving mainInstance;
 
+    private List<Recipe> desertBiomeRecipes = new ArrayList<Recipe>();
+
     public Recipes(DesertLiving plug) {
         mainInstance = plug;
         setupBlocks();
         setupTools();
     }
-    
+
+    public boolean isDesertOnly(Recipe r) {
+        for (Recipe recipe : desertBiomeRecipes) {
+            if (RecipeUtil.areEqual(recipe, r)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void setupBlocks() {
+
         // Cactus recipe now makes a sapling for more balance
         OneItemRecipe cactusSapling = new OneItemRecipe(new ItemStack(Material.SAPLING,3), Material.CACTUS);
+        OneItemRecipe sandDirt = new OneItemRecipe(new ItemStack(Material.DIRT, 4), Material.SAND);
 
-        // Convert saplings instead of wood blocks, this is easier to implement and more fair
-        ItemStack spruceSapling = new ItemStack(Material.SAPLING);
-        spruceSapling.setData(new Tree(TreeSpecies.REDWOOD));
+        ShapedRecipe dryWater = new ShapedRecipe(new ItemStack(Material.WATER_BUCKET,2));
+        dryWater.shape("TST","TTT");
+        dryWater.setIngredient('T',Material.STONE);
+        dryWater.setIngredient('S',Material.SAND);
 
-        OneItemRecipe oakToSpruce = new OneItemRecipe(spruceSapling, Material.SAPLING);
-        /* OneItemRecipe spruceToBirch = new OneItemRecipe(Wood.BIRCH, Wood.SPRUCE);
-        OneItemRecipe birchToJungle = new OneItemRecipe(Wood.BIRCH, Wood.JUNGLE);
-        OneItemRecipe jungleToOak = new OneItemRecipe(Wood.JUNGLE, Wood.OAK);
-        */
+        for (int i = 0; i < TreeSpecies.values().length - 1; i++) {
+            ItemStack sapling = new ItemStack(Material.SAPLING);
+            sapling.setDurability(TreeSpecies.values()[i+1].getData());
+            OneItemRecipe recipe = new OneItemRecipe(sapling, Material.SAPLING, TreeSpecies.values()[i].getData());
+
+            //System.out.println(TreeSpecies.values()[i].name() + "->" + TreeSpecies.values()[i+1].name());
+            addRecipe(recipe.getRecipe());
+        }
+
+        // Add the loop recipe for back to generic
+        ItemStack sapling = new ItemStack(Material.SAPLING);
+        sapling.setDurability(TreeSpecies.GENERIC.getData());
+        OneItemRecipe saplingReset = new OneItemRecipe(sapling, Material.SAPLING, TreeSpecies.DARK_OAK.getData());
+
         addRecipe(cactusSapling.getRecipe());
-        addRecipe(oakToSpruce.getRecipe());
-        /*
-        addRecipe(spruceToBirch.getRecipe());
-        addRecipe(birchToJungle.getRecipe());
-        addRecipe(jungleToOak.getRecipe());
-        */
+        addRecipe(sandDirt.getRecipe());
+        addRecipe(dryWater);
+        addRecipe(saplingReset.getRecipe());
+
         DesertLiving.log.info("[DesertLiving] Block Recipes Loaded.");
     }
     
@@ -64,5 +89,6 @@ public class Recipes {
     	}
     	
     	mainInstance.getServer().addRecipe(r);
+        desertBiomeRecipes.add(r);
     }
 }

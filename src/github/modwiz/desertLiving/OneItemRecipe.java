@@ -31,6 +31,17 @@ public class OneItemRecipe implements SimpleRecipe{
 		shapeless.addIngredient(materialData);
 		recipe = shapeless;
 	}
+
+    /**
+     *
+     *
+     * @deprecated Magic values
+     */
+    public OneItemRecipe(ItemStack product, Material reactant, short damage) {
+        ShapelessRecipe shapeless = new ShapelessRecipe(product);
+        shapeless.addIngredient(reactant, damage);
+        recipe = shapeless;
+    }
     
     @Override
     public Recipe getRecipe() {

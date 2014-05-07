@@ -5,6 +5,8 @@
 package github.modwiz.desertLiving;
 
 import java.util.logging.Logger;
+
+import github.modwiz.desertLiving.listeners.CraftingListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -20,5 +22,10 @@ public class DesertLiving extends JavaPlugin{
     @Override
     public void onEnable() {
         recipes = new Recipes(this);
+        getServer().getPluginManager().registerEvents(new CraftingListener(this), this);
+    }
+
+    public Recipes getRecipeHandler() {
+        return recipes;
     }
 }
