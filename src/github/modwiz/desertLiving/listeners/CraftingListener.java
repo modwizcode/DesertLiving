@@ -26,7 +26,7 @@ public class CraftingListener implements Listener {
     @EventHandler
     public void onPreCraft(PrepareItemCraftEvent event) {
         if (plugin.getRecipeHandler().isDesertOnly(event.getRecipe())) {
-            System.out.println("Desert only recipe");
+            //System.out.println("Desert only recipe");
             Player player = (Player) event.getView().getPlayer();
             World world = player.getWorld();
             Chunk chunk = player.getLocation().getChunk();
